@@ -1,10 +1,10 @@
-package com.art;
+package com.iQuiz;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RegistryApplicationTests {
+class GatewayApplicationTests {
 
 	@Test
 	void contextLoads() {
