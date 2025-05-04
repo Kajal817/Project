@@ -26,7 +26,7 @@ public class User {
 	private Long id;
 	
 	@Column(nullable = false)
-	@Pattern(regexp = "^[a-zA-Z]+$", message = "Full name contains only alphabetic character and whitespace")
+	@Pattern(regexp = "^[A-Za-z]{2,50}$", message = "Full name contains only alphabetic character and whitespace")
 	@Size(min=3, message="Full name must contain atleast threes characters")
 	private String fullName;
 	
