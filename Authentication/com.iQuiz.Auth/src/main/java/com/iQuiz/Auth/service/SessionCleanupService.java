@@ -28,7 +28,7 @@ public class SessionCleanupService {
 		Date currentTime = new Date();
 		
 //		Checking for each active sessions
-		List<UserSession> activeSession = userSessionRepository.findByActiveTrue(); 
+		List<UserSession> activeSession = userSessionRepository.findByIsActiveTrue(); 
 		
 		for(UserSession session: activeSession) {
 			if(currentTime.getTime() - session.getLastActivityTime().getTime() > sessionTimeout) {
