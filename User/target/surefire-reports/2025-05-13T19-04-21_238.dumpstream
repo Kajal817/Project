@@ -1,0 +1,5 @@
+# Created at 2025-05-13T19:04:21.626
+Boot Manifest-JAR contains absolute paths in classpath 'E:\IQuiz_BackEnd\User\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
