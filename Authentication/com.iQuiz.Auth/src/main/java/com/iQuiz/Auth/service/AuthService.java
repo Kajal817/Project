@@ -22,7 +22,6 @@ import com.iQuiz.Auth.exception.CustomException;
 import com.iQuiz.Auth.repository.UserRepository;
 import com.iQuiz.Auth.repository.UserSessionRepository;
 import com.iQuiz.Auth.security.JwtTokenProvider;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -31,6 +30,7 @@ public class AuthService {
 	
 	public static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 	
+	 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final UserSessionRepository userSessionRepository;
@@ -73,14 +73,30 @@ public class AuthService {
 		return new AuthResponse(token, user.getEmail(), user.getRoles());
 	}
 	
-	public void logout(String email) {
-		logger.info("Logging out user: {}", email);
-		Optional<UserSession> userSession = userSessionRepository.findByEmailAndActive(email);
-		userSession.ifPresent(session -> {
-			session.setActive(false);
-			userSessionRepository.save(session);
-			logger.info("User logged-out successfully: {}", email);
-		});
+//	public void logout(String email, boolean isActive) {
+//		logger.info("Logging out user: {}", email);
+//		Optional<UserSession> userSession = userSessionRepository.findByEmailAndIsActive(email, isActive);
+//		userSession.ifPresent(session -> {
+//			session.setActive(false);
+//			userSessionRepository.save(session);
+//			logger.info("User logged-out successfully: {}", email);
+//		});
+//	}
+	public void logout(String email, boolean isActive) {
+	    logger.info("Logging out user: {}", email);
+
+	    // Attempt to find the active session for the user
+	    Optional<UserSession> userSession = userSessionRepository.findByEmailAndIsActive(email, isActive);
+
+	    // If a session is found, deactivate it
+	    userSession.ifPresentOrElse(session -> {
+	        session.setActive(false);
+	        userSessionRepository.save(session);  // Save the updated session
+	        logger.info("User logged-out successfully: {}", email);
+	    }, () -> {
+	        // Handle the case when the user session is not found
+	        logger.warn("No active session found for user: {}", email);
+	    });
 	}
 	
 	public User getUserByEmailId(String email) throws CustomException {

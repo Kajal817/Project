@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "user_session")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class UserSession {
 	@Id
 	private String tokenId;
@@ -28,4 +26,32 @@ public class UserSession {
 	
 	@Column(nullable = false)
 	private boolean isActive;
+	
+	public String getTokenId() {
+		return tokenId;
+	}
+	public void setTokenId(String tokenId) {
+		this.tokenId = tokenId;
+	}
+	
+	public Date getLastActivityTime() {
+		return lastActivityTime;
+	}
+	public void setLastActivityTime(Date lastActiveTime) {
+		this.lastActivityTime = lastActiveTime;
+	}
+	
+	public boolean isActive() {
+        return isActive;
+    }
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

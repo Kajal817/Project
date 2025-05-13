@@ -3,7 +3,9 @@ package com.iQuiz.Auth.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,11 +44,36 @@ public class AuthController {
 	     return ResponseEntity.status(201).body("User Registered Successfully");
 	}
 	
+//	@PostMapping("/logout")
+//	public ResponseEntity<?> logout(@RequestParam String email, @RequestParam boolean isActive){
+//		logger.info("Logout attempt for user: {}", email);
+//		authService.logout(email, isActive);
+//		logger.info("User logged out successfully: {}", email);
+//		return ResponseEntity.ok("User logout successfully.");
+//	}
+	
 	@PostMapping("/logout")
-	public ResponseEntity<?> logout(@RequestParam String email){
-		logger.info("Logout attempt for user: {}", email);
-		authService.logout(email);
-		logger.info("User logged out successfully: {}", email);
-		return ResponseEntity.ok("User logout successfully.");
+	public ResponseEntity<?> logout(@RequestParam String email, @RequestParam boolean isActive) {
+	    logger.info("Logout attempt for user: {}", email);
+
+	    try {
+	        // Call the service to handle the logout
+	        authService.logout(email, isActive);
+
+	        // If successful, return a success message
+	        logger.info("User logged out successfully: {}", email);
+	        return ResponseEntity.ok("User logged out successfully.");
+	    } catch (UsernameNotFoundException e) {
+	        // Handle case where the user session is not found or any other specific exception
+	        logger.error("Logout failed for user: {}", email, e);
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                             .body("No active session found for user: " + email);
+	    } catch (Exception e) {
+	        // Generic exception handler for other errors
+	        logger.error("An unexpected error occurred during logout for user: {}", email, e);
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body("An error occurred while logging out.");
+	    }
 	}
+
 }

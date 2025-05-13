@@ -23,6 +23,7 @@ import lombok.AllArgsConstructor;
 
 @Configuration
 @AllArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig {
 	private final JwtAuthEntryPoint jwtAuthEntryPoint;
 	private final CustomUserDetailsService userDetails;
@@ -35,7 +36,15 @@ public class SecurityConfig {
             .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthEntryPoint))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/login", "/auth/register").permitAll()
+                .requestMatchers("/auth/login", 
+                		"/auth/register",
+                		"/auth/logout",
+                		"/v3/api-docs/**",
+                	    "/swagger-ui/**",
+                	    "/swagger-resources/**",
+                	    "/webjars/**",
+                	    "/swagger-ui.html/**")
+                .permitAll()
                 .anyRequest().authenticated()
             );
 
