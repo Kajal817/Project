@@ -20,6 +20,7 @@ import com.iQuiz.Auth.security.JwtAuthenticationFilter;
 import com.iQuiz.Auth.service.CustomUserDetailsService;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Configuration
 @AllArgsConstructor
